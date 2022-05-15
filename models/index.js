@@ -17,6 +17,12 @@ const Comment = require("./Comment")(sequelize, Model, DataTypes);
 Article.belongsTo(User);
 User.hasMany(Article);
 
+Comment.belongsTo(User);
+User.hasMany(Comment);
+
+Comment.belongsTo(Article);
+Article.hasMany(Comment);
+
 sequelize.sync({ alter: true });
 
 module.exports = { sequelize, Article, User, Comment };

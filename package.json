@@ -1,7 +1,6 @@
 {
   "name": "ejercicio_blog",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +13,15 @@
     "express": "^4.18.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.19.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaquinroc/blogHack.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/joaquinroc/blogHack/issues"
+  },
+  "homepage": "https://github.com/joaquinroc/blogHack#readme",
+  "description": ""
 }
