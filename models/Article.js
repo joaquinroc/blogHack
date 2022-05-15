@@ -13,18 +13,18 @@ module.exports = (sequelize, Models, DataTypes) => {
         type: DataTypes.STRING,
       },
 
+      content: {
+        type: DataTypes.TEXT,
+      },
+
       image: {
         type: DataTypes.STRING,
-      },
-      autorId: {
-        type: DataTypes.INTEGER,
       },
     },
     {
       sequelize,
       moduleName: "Article",
-      timestamps: false,
-    }
+    },
   );
 
   return Article;
