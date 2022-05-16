@@ -7,6 +7,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: process.env.DB_CONNECTION,
+    logging: false,
   },
 );
 
@@ -22,7 +23,5 @@ User.hasMany(Comment);
 
 Comment.belongsTo(Article);
 Article.hasMany(Comment);
-
-sequelize.sync({ alter: true });
 
 module.exports = { sequelize, Article, User, Comment };

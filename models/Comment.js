@@ -14,7 +14,7 @@ module.exports = (sequelize, Model, DataTypes) => {
     },
     {
       sequelize,
-      moduleName: "Comment",
+      moduleName: "comment",
     },
   );
 
