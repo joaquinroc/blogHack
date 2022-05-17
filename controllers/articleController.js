@@ -1,7 +1,6 @@
 const { Article, User } = require("../models");
 const formidable = require("formidable");
 const path = require("path");
-const { log } = require("console");
 
 const articleController = {
   getAllArticles: function (req, res) {
