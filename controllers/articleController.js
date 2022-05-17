@@ -21,15 +21,19 @@ const articleController = {
 
     form.parse(req, (err, fields, files) => {
       if (err) {
-        next(err);
-        return;
-      }
+        next(err); 
+      } 
+      
       console.log(fields, files);
 
       res.json(fields, files);
     });
   },
-  deleteArticle: function (req, res) {},
+  deleteArticle: function (req, res) {
+    const deleteArticle = await User.create({ name: "Jane" });
+console.log(jane.name); // "Jane"
+await jane.destroy();
+  },
 };
 
 module.exports = articleController;
