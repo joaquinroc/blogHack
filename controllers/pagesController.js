@@ -1,4 +1,4 @@
-const { Article, User } = require("../models");
+const { Article, User, Comment } = require("../models");
 
 async function showHome(req, res) {
   const articles = await Article.findAll({ include: User });
@@ -6,8 +6,9 @@ async function showHome(req, res) {
 }
 
 async function showArticle(req, res) {
-  // const article = await Article.findByPk(req.params.id);
-  res.render("post");
+  const article = await Article.findByPk(req.params.id, { include: User });
+  const comments = await Comment.findAll({ include: User });
+  res.render("post", { article, comments });
 }
 
 module.exports = {

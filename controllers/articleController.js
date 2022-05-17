@@ -1,10 +1,12 @@
 const { Article, User } = require("../models");
 const formidable = require("formidable");
 const path = require("path");
+const { log } = require("console");
 
 const articleController = {
   getAllArticles: function (req, res) {
-    res.render("home");
+    console.log("Hola");
+    res.render("adminShowall");
   },
   getOneArticle: function (req, res) {
     res.render("article");
@@ -19,20 +21,18 @@ const articleController = {
       uploadDir: path.join(__dirname, "../public/img"),
     });
 
-    form.parse(req, (err, fields, files) => {
+    form.parse(req, async (err, fields, files) => {
       if (err) {
-        next(err); 
-      } 
-      
-      console.log(fields, files);
+        next(err);
+        return;
+      }
 
-      res.json(fields, files);
+      const articles = await Article.create({
+        title: fields.tittle,
+        content: fields.content,
+        image: files.img.newFilename,
+      });
     });
-  },
-  deleteArticle: function (req, res) {
-    const deleteArticle = await User.create({ name: "Jane" });
-console.log(jane.name); // "Jane"
-await jane.destroy();
   },
 };
 
