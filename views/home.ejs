@@ -96,18 +96,18 @@
           <% for (const article of articles) { %>
 
           <div class="post-preview">
-            <a href="post.html">
+            <a href="/<%= `${article.id}` %>">
               <h2 class="post-title">
                 <%= article.title %> 
               </h2>
-              <h3 class="post-content-preview">
-                <%= article.content %> 
-              </h3>
+              <span class="post-content-preview">
+                <%= article.content.slice(0, 100) %> 
+              </span>
             </a>
-            <p class="post-meta">
+            <p class="post-meta"> 
               Posted by
-              <a href="#!"> <%= article.UserId %> </a>
-              on September 24, 2022
+              <a href="#!"> <%= article.user.name %>  </a>
+              on <%= article.createdAt %> 
             </p>
           </div>
 

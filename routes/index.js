@@ -1,12 +1,9 @@
-const express = require("express");
-const indexRouter = express.Router();
-const articleController = require("../controllers/articleController");
-const pagesController = require("../controllers/pagesController");
+const publicRoutes = require("./publicRoutes");
+const adminRoutes = require("./adminRoutes");
+const apiRoutes = require("./apiRoutes");
 
-// GET HOME PAGE
-indexRouter.get("/", pagesController.showHome);
-
-// GET ONE ARTICLE
-// indexRouter.get("/:id", articleController.getOneArticle);
-
-module.exports = indexRouter;
+module.exports = (app) => {
+  app.use(publicRoutes);
+  app.use("/admin", adminRoutes);
+  app.use("/api", apiRoutes);
+};

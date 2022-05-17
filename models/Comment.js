@@ -8,13 +8,23 @@ module.exports = (sequelize, Model, DataTypes) => {
         autoIncrement: true,
         primaryKey: true,
       },
+
       content: {
         type: DataTypes.STRING(1000),
+      },
+
+      creationDate: {
+        type: DataTypes.DATE,
+      },
+
+      updateDate: {
+        type: DataTypes.DATE,
       },
     },
     {
       sequelize,
-      moduleName: "Comment",
+      moduleName: "comment",
+      timestamps: false,
     },
   );
 

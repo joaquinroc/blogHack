@@ -1,13 +1,16 @@
-const { Article, User } = require("../models");
+const { Article } = require("../models");
 
 async function showHome(req, res) {
-  const articlesInstances = await Article.findAll();
-  const articles = articlesInstances.map((article) => article.dataValues);
-  const usersInstances = await User.findAll();
-  const users = usersInstances.map((user) => user.dataValues);
-  res.render("home", { articles, users });
+  const articles = await Article.findAll({ include: User });
+  res.render("home", { articles });
+}
+
+async function showArticle(req, res) {
+  // const article = await Article.findByPk(req.params.id);
+  res.render("post");
 }
 
 module.exports = {
   showHome,
+  showArticle,
 };
