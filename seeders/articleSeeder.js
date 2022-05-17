@@ -11,7 +11,7 @@ module.exports = async () => {
     articles.push({
       title: faker.lorem.sentence(1),
       content: faker.lorem.paragraphs(),
-      image: faker.image.avatar(),
+      image: faker.image.cats(),
       creationDate: faker.datatype.datetime(),
       updatedDate: faker.datatype.datetime(),
       userId: faker.datatype.number({
