@@ -11,9 +11,11 @@ module.exports = async () => {
       name: faker.name.firstName(),
       lastname: faker.name.firstName(),
       email: faker.internet.email(),
+      creationDate: faker.datatype.datetime(),
+      updatedDate: faker.datatype.datetime(),
     });
   }
 
   await User.bulkCreate(users);
-  console.log("[Database] Se corrió el seeder de Articles.");
+  console.log("[Database] Se corrió el seeder de Users.");
 };

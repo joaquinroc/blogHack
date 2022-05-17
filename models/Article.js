@@ -20,10 +20,19 @@ module.exports = (sequelize, Models, DataTypes) => {
       image: {
         type: DataTypes.STRING,
       },
+
+      creationDate: {
+        type: DataTypes.DATE,
+      },
+
+      updateDate: {
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,
       moduleName: "article",
+      timestamps: false,
     },
   );
 

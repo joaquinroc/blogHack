@@ -1,20 +1,20 @@
 const { faker } = require("@faker-js/faker");
-const { Article } = require("../models");
-const { User } = require("../models");
+const { Article, User } = require("../models");
 
 faker.locale = "es";
 
 module.exports = async () => {
   const articles = [];
-  const instanceUsers = await User.findAll();
-  const users = await instanceUsers.map((user) => user.dataValues);
+  const users = await User.findAll();
 
   for (let i = 0; i < 5; i++) {
     articles.push({
       title: faker.lorem.sentence(1),
       content: faker.lorem.paragraphs(),
       image: faker.image.avatar(),
-      UserId: faker.datatype.number({
+      creationDate: faker.datatype.datetime(),
+      updatedDate: faker.datatype.datetime(),
+      userId: faker.datatype.number({
         min: 1,
         max: users.length,
       }),

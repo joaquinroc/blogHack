@@ -1,35 +1,29 @@
 const { faker } = require("@faker-js/faker");
-const { Comment } = require("../models");
-const { User } = require("../models");
-const { Article } = require("../models");
+const { Comment, Article, User } = require("../models");
 
 faker.locale = "es";
 
 module.exports = async () => {
   const comments = [];
-
-  const instanceUsers = await User.findAll();
-  const users = await instanceUsers.map((user) => user.dataValues);
-
-  const instanceArticles = await Article.findAll();
-  const articles = await instanceArticles.map((article) => article.dataValues); // true
+  const users = await User.findAll();
+  const articles = await Article.findAll();
 
   for (let i = 0; i < 6; i++) {
     comments.push({
       content: faker.lorem.paragraphs(),
-
-      UserId: faker.datatype.number({
+      creationDate: faker.datatype.datetime(),
+      updatedDate: faker.datatype.datetime(),
+      userId: faker.datatype.number({
         min: 1,
         max: users.length,
       }),
-
-      ArticleId: faker.datatype.number({
+      articleId: faker.datatype.number({
         min: 1,
         max: articles.length,
       }),
     });
-
-    await Comment.bulkCreate(comments);
-    console.log("[Database] Se corrió el seeder de Articles.");
   }
+
+  await Comment.bulkCreate(comments);
+  console.log("[Database] Se corrió el seeder de Comments.");
 };

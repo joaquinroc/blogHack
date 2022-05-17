@@ -20,11 +20,20 @@ module.exports = (sequelize, Model, DataTypes) => {
       email: {
         type: DataTypes.STRING,
       },
+
+      creationDate: {
+        type: DataTypes.DATE,
+      },
+
+      updateDate: {
+        type: DataTypes.DATE,
+      },
     },
 
     {
       sequelize,
-      moduleName: "user",
+      modelName: "user",
+      timestamps: false,
     },
   );
 
