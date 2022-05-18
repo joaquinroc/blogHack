@@ -21,6 +21,10 @@ module.exports = (sequelize, Model, DataTypes) => {
         type: DataTypes.STRING,
       },
 
+      avatar: {
+        type: DataTypes.STRING,
+      },
+
       creationDate: {
         type: DataTypes.DATE,
       },

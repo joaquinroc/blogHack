@@ -11,6 +11,7 @@ module.exports = async () => {
       name: faker.name.firstName(),
       lastname: faker.name.firstName(),
       email: faker.internet.email(),
+      avatar: faker.image.avatar(),
       creationDate: faker.datatype.datetime(),
       updatedDate: faker.datatype.datetime(),
     });
