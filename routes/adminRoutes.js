@@ -5,8 +5,14 @@ const articleController = require("../controllers/articleController");
 
 adminRouter.get("/", articleController.getAllArticles);
 
-adminRouter.get("/crear", articleController.showForm);
+adminRouter.get("/create", articleController.renderCreatePage);
 
-adminRouter.post("/crear", articleController.addUser);
+adminRouter.post("/create", articleController.createArticle);
+
+adminRouter.get("/edit/:id", articleController.showArticleToEdit);
+
+adminRouter.post("/edit/:id", articleController.editArticle);
+
+adminRouter.get("/delete/:id", articleController.deleteArticle);
 
 module.exports = adminRouter;
