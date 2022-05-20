@@ -9,4 +9,10 @@ adminRouter.get("/crear", articleController.showForm);
 
 adminRouter.post("/crear", articleController.addUser);
 
+adminRouter.get("/edit/:id", articleController.showArticleToEdit);
+
+adminRouter.post("/edit/:id", articleController.editArticle);
+
+// adminRouter.get("/delete/:id" articleController.deleteArticle);
+
 module.exports = adminRouter;

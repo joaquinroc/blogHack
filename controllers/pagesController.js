@@ -13,6 +13,7 @@ async function showArticle(req, res) {
       articleId: req.params.id,
     },
   });
+
   res.render("article", { article, comments });
 }
 

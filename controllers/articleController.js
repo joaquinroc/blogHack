@@ -3,13 +3,15 @@ const formidable = require("formidable");
 const path = require("path");
 
 const articleController = {
-  getAllArticles: function (req, res) {
-    console.log("Hola");
-    res.render("adminShowall");
+  getAllArticles: async function (req, res) {
+    const articles = await Article.findAll();
+    if (req.isAuthenticated()) {
+      res.render("adminShowall", { articles });
+    } else {
+      res.redirect("/login");
+    }
   },
-  getOneArticle: function (req, res) {
-    res.render("article");
-  },
+
   showForm: function (req, res) {
     res.render("createArticle");
   },
@@ -32,6 +34,23 @@ const articleController = {
         image: files.img.newFilename,
       });
     });
+  },
+  showArticleToEdit: async function (req, res) {
+    const article = await Article.findByPk(req.params.id);
+    res.render("edit", { article });
+  },
+  editArticle: async function (req, res) {
+    const updateArticle = await Article.update(
+      {
+        title: req.body.articleTitle,
+        content: req.body.articleContent,
+        image: req.body.articleImage,
+        updateDate: Date.now(),
+      },
+      { where: { id: req.params.id } },
+    );
+    console.log(`Succesfully updated article id ${req.params.id}`);
+    res.redirect("/admin/edit");
   },
 };
 
