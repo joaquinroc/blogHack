@@ -40,7 +40,7 @@ passport.use(
       }
       const compare = await bcrypt.compare(password, user.password);
       if (!compare) {
-        console.log("Password incorrect");
+        console.log("Incorrect password");
         return cb(null, false);
       }
       if (compare) {
@@ -100,6 +100,10 @@ app.post(
     failureRedirect: "/login",
   }),
 );
+app.post("/logout", function (req, res) {
+  req.logout();
+  res.redirect("/");
+});
 
 routes(app);
 app.listen(3000);

@@ -13,6 +13,7 @@
     <title>Admin</title>
   </head>
   <body>
+    <a class="btn btn-primary" href="admin/create/">Create</a>
     <table class="table">
       <thead>
         <tr>
@@ -27,6 +28,7 @@
           <th scope="row"><%=article.id%></th>
           <td><%=article.title%></td>
           <td><%=article.date%></td>
+          <td><%=article.user.id%></td>
           <th scope="col">
             <a class="btn btn-primary" href="admin/edit/<%= article.id %> ">Editar</a>
             <a class="btn btn-danger" href="admin/delete/<%= article.id %> ">Delete</a>
@@ -35,6 +37,7 @@
         <% } %>
       </tbody>
     </table>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js%22%3E"></script>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

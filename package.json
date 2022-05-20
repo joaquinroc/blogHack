@@ -22,7 +22,8 @@
     "npm": "^8.10.0",
     "passport": "^0.5.3",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.19.0"
+    "sequelize": "^6.19.0",
+    "sweetalert": "^2.1.2"
   },
   "repository": {
     "type": "git",

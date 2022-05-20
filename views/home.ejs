@@ -57,6 +57,19 @@
             <li class="nav-item">
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="/register">Sign up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">Sign in</a>
+            </li>
+            <% if(logged){%>
+            <form method="post" action="/logout">
+              <li class="nav-item">
+                <button type="submit" class="btn btn-primary">Log out</button>
+              </li>
+            </form>
+            <% }%>
           </ul>
         </div>
       </div>
@@ -82,7 +95,7 @@
           <% for (const article of articles) { %>
 
           <div class="post-preview">
-            <a href="/<%= `${article.id}` %>">
+            <a href="/article/<%= `${article.id}` %>">
               <h2 class="post-title"><%= article.title %></h2>
               <span class="post-content-preview"> <%= article.content.slice(0, 100) %> </span>
             </a>

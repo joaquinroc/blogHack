@@ -1,8 +1,9 @@
 const { Article, User, Comment } = require("../models");
 
 async function showHome(req, res) {
+  const logged = req.isAuthenticated();
   const articles = await Article.findAll({ include: User });
-  res.render("home", { articles });
+  res.render("home", { articles, logged });
 }
 
 async function showArticle(req, res) {
