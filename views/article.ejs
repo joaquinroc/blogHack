@@ -1,52 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Blog HA</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
-    <script
-      src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Google fonts-->
-    <link
-      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
+    <%- include ("partials/head") %> 
     <style>
       .avatar {
         width: 4rem;
         height: 4rem;
       }
-
-      .comment-div div {
-        width: 80%;
+      .comment-div {
+        position: relative;
       }
-
       .comment {
         font-size: 0.8rem;
       }
-
       textarea {
         font-size: 0.8rem;
+      }
+      #comment-content-div {
+        width: 90%;
+      }
+      #buttons-div {
+        position: relative;
+        top: 0;
+        right: 0;
+        transform: scale(0.7);
       }
     </style>
   </head>
@@ -54,7 +30,7 @@
     <!-- Navbar -->
     <%- include("partials/navbar") %>
     <!-- Page Header -->
-    <header class="masthead">
+    <header class="masthead" style="background-image: url('<%= article.image %>')">
       <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
@@ -63,7 +39,7 @@
               <span class="meta">
                 Posted by
                 <a href="#!"><%= article.user.name + ' ' + article.user.lastname%> </a>
-                on <%= article.creationDate.toString().slice(0, 15) %>
+                on <%= article.createdAt.toString().slice(0, 15) %>
               </span>
             </div>
           </div>
@@ -87,15 +63,23 @@
           <div class="col-10">
             <h3>Comments</h3>
             <% for (const comment of comments) { %>
-            <div class="border rounded d-flex comment-div">
-              <img class="avatar mx-3 my-3" src="<%= comment.user.avatar %> " alt="" />
-              <div>
-                <span> <%= comment.user.name + ' ' + comment.user.lastname %></span>
+            <div class="border rounded d-flex comment-div justify-content-between p-2">
+              <img class="mx-3 rounded-circle avatar" src="<%= comment.user.avatar %> " alt="" />
+              <div id="comment-content-div">
+                <span> <%= comment.user.firstname + ' ' + comment.user.lastname %></span>
                 <p class="my-2 comment"><%= comment.content %></p>
               </div>
+              <% if (user.role.code >= 300) { %>
+                <div id="buttons-div">
+                  <a href="/comment/<%= comment.id %>/edit" class="btn btn-primary p-2 m-1">Edit</a>                      
+                  <form action="/comment/<%= comment.id %>?_method=DELETE" method="post">
+                    <button type="submit" class="d-block btn btn-danger p-2 m-1">Delete</button> 
+                  </form> 
+                </div> 
+              <% } %>  
             </div>
             <% } %>
-            <form action="/comment/<%= article.id %> " method="post" class="my-3">
+            <form action="/comment" method="post" class="my-3">
               <textarea
                 name="comment"
                 id="comment"
@@ -104,7 +88,8 @@
                 class="d-block my-2"
                 placeholder="Add your comment here..."
               ></textarea>
-              <button class="btn btn-primary" type="submit">Submit</button>
+              <input type="hidden" name="articleId" value="<%= article.id %>">
+              <button class="btn btn-primary" id="addCommentBtn" type="submit">Submit</button>
             </form>
           </div>
         </div>
@@ -115,6 +100,8 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
+    <!-- Comment JS-->
+    <!-- <script src="/js/comment.js"></script> -->
   </body>
 </html>

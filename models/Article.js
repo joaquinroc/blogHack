@@ -1,38 +1,26 @@
-module.exports = (sequelize, Models, DataTypes) => {
-  class Article extends Models {}
+module.exports = (sequelize, Model, DataTypes) => {
+  class Article extends Model {}
 
   Article.init(
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
+        autoIncrement: true,
       },
-
       title: {
         type: DataTypes.STRING,
       },
-
       content: {
         type: DataTypes.TEXT,
       },
-
       image: {
         type: DataTypes.STRING,
-      },
-
-      creationDate: {
-        type: DataTypes.DATE,
-      },
-
-      updateDate: {
-        type: DataTypes.DATE,
       },
     },
     {
       sequelize,
       modelName: "article",
-      timestamps: false,
     },
   );
 

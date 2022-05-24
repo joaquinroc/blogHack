@@ -4,27 +4,17 @@ module.exports = (sequelize, Model, DataTypes) => {
   Comment.init(
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
+        autoIncrement: true,
       },
-
       content: {
-        type: DataTypes.STRING(1000),
-      },
-
-      creationDate: {
-        type: DataTypes.DATE,
-      },
-
-      updateDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.TEXT,
       },
     },
     {
       sequelize,
       modelName: "comment",
-      timestamps: false,
     },
   );
 

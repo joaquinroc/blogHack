@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <%- include ("partials/head") %> 
+  <style>
+    td.options {
+      width: 5rem;
+    };
+  </style>
+  </head>
+  <body>
+    <%- include ("partials/navbar") %> 
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('../img/pages/dashboard.jpg')">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="site-heading">
+              <h1>Dashboard</h1>
+              <span class="subheading">Logged in as <%= user.firstname %> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-12 col-lg-12 col-xl-12">
+          <!-- Articles List-->
+          <div class="d-flex justify-content-between align-items-center my-5">
+            <h2>Articles List</h2>
+            <a href="article/create" class="btn btn-success">New Article</a>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Author</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (const article of articles) { %>
+                <tr>
+                  <td> <%= article.id %> </td>
+                  <td> <%= article.title %> </td>
+                  <td> <%= article.content.slice(0, 50) + "..." %> </td>
+                  <td> <%= article.user.firstname + " " + article.user.lastname %> </td>
+                  <td> <%= article.createdAt.toString().slice(0, 15) %> </td>
+                  <td> <%= article.updatedAt.toString().slice(0, 15) %> </td>
+                  <td class="options">
+                    <% if ((user.role.code >= 200 && user.id === article.user.id) || user.role.code >= 300) { %> 
+                      <a href="article/<%= article.id %>/edit" class="d-block btn btn-primary p-2 m-1">Edit</a>                      
+                      <form action="article/<%= article.id %>?_method=DELETE" method="post">
+                        <% if (user.role.code >= 400 || user.id === article.user.id) { %> 
+                          <button type="submit" class="d-block btn btn-danger p-2 m-1">Delete</button> 
+                        <% } else { %> 
+                          <button type="submit" class="d-block btn btn-danger p-2 m-1" disabled>Delete</button> 
+                        <% } %> 
+                      </form>  
+                    <% } %>  
+                  </td>
+                </tr>
+              <% } %> 
+            </tbody>
+          </table>
+          <!-- Users List-->
+          <% if (user.role.code >= 400) { %> 
+            <div class="d-flex justify-content-between align-items-center my-5">
+              <h2>Users List</h2>
+              <a href="#" class="btn btn-success">Add User</a>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <!-- <th scope="col">Avatar</th> -->
+                  <th scope="col">Email</th>
+                  <th scope="col">Created At</th>
+                  <th scope="col">Updated</th>
+                  <th scope="col">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (const user of users) { %>
+                  <tr>
+                    <td> <%= user.id %> </td>
+                    <td> <%= user.firstname %> </td>
+                    <td> <%= user.lastname %> </td>
+                    <!-- <td> Avatar </td> -->
+                    <td> <%= user.email %> </td>
+                    <td> <%= user.createdAt.toString().slice(0, 15) %> </td>
+                    <td> <%= user.updatedAt.toString().slice(0, 15) %> </td>
+                    <td class="options">
+                      <a href="/user/<%= user.id %>/edit" class="d-block btn btn-primary p-2 m-1">Edit</a>                      
+                      <form action="/user/<%= user.id %>?_method=DELETE" method="post">
+                        <button type="submit" class="d-block btn btn-danger p-2 m-1">Delete</button> 
+                      </form> 
+                    </td>
+                  </tr>
+                <% } %> 
+              </tbody>
+            </table>
+          <% } %> 
+          <!-- Divider-->
+          <hr class="my-4" />
+        </div>
+      </div>
+    </div>
+    <%- include ("partials/footer") %> 
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/js/script.js"></script>
+  </body>
+</html>

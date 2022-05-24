@@ -11,17 +11,27 @@ const sequelize = new Sequelize(
   },
 );
 
-const Article = require("./Article")(sequelize, Model, DataTypes);
+const Role = require("./Role")(sequelize, Model, DataTypes);
 const User = require("./User")(sequelize, Model, DataTypes);
 const Comment = require("./Comment")(sequelize, Model, DataTypes);
+const Article = require("./Article")(sequelize, Model, DataTypes);
 
-Article.belongsTo(User, { foreignKey: "userId" });
-User.hasMany(Article, { foreignKey: "userId" });
+Role.hasMany(User);
+User.belongsTo(Role);
 
-Comment.belongsTo(User, { foreignKey: "userId" });
-User.hasMany(Comment, { foreignKey: "userId" });
+User.hasMany(Article, { onDelete: "CASCADE" });
+Article.belongsTo(User);
 
-Comment.belongsTo(Article, { foreignKey: "articleId" });
-Article.hasMany(Comment, { foreignKey: "articleId" });
+User.hasMany(Comment, { onDelete: "CASCADE" });
+Comment.belongsTo(User);
 
-module.exports = { sequelize, Article, User, Comment };
+Article.hasMany(Comment, { onDelete: "CASCADE" });
+Comment.belongsTo(Article);
+
+module.exports = {
+  sequelize,
+  Role,
+  User,
+  Comment,
+  Article,
+};

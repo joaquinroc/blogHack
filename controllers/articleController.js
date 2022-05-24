@@ -1,92 +1,96 @@
-const { Article, User } = require("../models");
+const { User, Article } = require("../models");
 const formidable = require("formidable");
 const path = require("path");
 
-const articleController = {
-  // Funcion que carga todos los artículos y los muestra en la pagina de /admin
-  getAllArticles: async function (req, res) {
-    const articles = await Article.findAll({
-      include: {
-        model: User,
-      },
+// Show the form for creating a new resource
+async function create(req, res) {
+  res.render("create");
+}
+
+// Store a newly created resource in storage.
+async function store(req, res) {
+  const form = formidable({
+    multiples: true,
+    keepExtensions: true,
+    uploadDir: path.join(__dirname, "../public/img/articles"),
+  });
+
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    await Article.create({
+      title: fields.title,
+      content: fields.content,
+      image: files.image.newFilename,
+      userId: fields.userId,
     });
-    if (req.isAuthenticated()) {
-      res.render("adminShowall", { articles });
-    } else {
-      res.redirect("/login");
-    }
-  },
-  // Funcion que carga el formulario para crear un articulo
-  renderCreatePage: function (req, res) {
-    if (req.isAuthenticated()) {
-      res.render("create", { userId: req.user.id });
-    } else {
-      res.redirect("/login");
-    }
-  },
+  });
+  res.redirect("/dashboard");
+}
 
-  // Funcion que crea un articulo y me redirige a /admin
-  createArticle: function (req, res, next) {
-    const form = formidable({
-      multiples: true,
-      keepExtensions: true,
-      uploadDir: path.join(__dirname, "../public/img"),
+// Show the form for editing the specified resource.
+async function edit(req, res) {
+  const article = await Article.findByPk(req.params.id, {
+    include: { model: User },
+  });
+
+  if (req.user.role.code < 300 && article.user.id !== req.params.id) {
+    return res.send("You are not allowed to edit somebody else's Article!");
+  }
+
+  if (!article) {
+    return res.send("You can't edit an unexisting article!");
+  }
+
+  res.render("edit", { article });
+}
+
+// Update the specified resource in storage.
+async function update(req, res) {
+  const article = await Article.findByPk(req.params.id, {
+    include: { model: User },
+  });
+
+  if (req.user.role.code < 300 && article.user.id !== req.params.id) {
+    return res.send("You are not allowed to edit somebody else's Article!");
+  }
+
+  if (article) {
+    await article.update({
+      title: req.body.title,
+      content: req.body.content,
+      image: req.body.image,
+      updatedAt: Date.now(),
     });
+  }
 
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        next(err);
-        return;
-      }
+  res.redirect("/dashboard");
+}
 
-      const articles = await Article.create({
-        title: fields.title,
-        content: fields.content,
-        image: files.image.newFilename,
-        userId: fields.userId,
-      });
-    });
-    res.redirect("/admin");
-  },
+// Remove the specified resource from storage.
+async function destroy(req, res) {
+  const article = await Article.findByPk(req.params.id, {
+    include: { model: User },
+  });
 
-  // Funcion que muestra el articulo a editar...
-  showArticleToEdit: async function (req, res) {
-    const article = await Article.findByPk(req.params.id);
-    if (req.user.id === article.userId) {
-      res.render("edit", { article });
-    } else {
-      res.redirect("/admin");
-    }
+  if (req.user.role.code < 300 && article.user.id !== req.params.id) {
+    return res.send("You are not allowed to delete somebody else's Article!");
+  }
 
-    // res.render("edit", { article });
-  },
+  if (article) {
+    await article.destroy();
+  }
 
-  // Funcion que edita el article  y nos redirecciona a /admin
-  editArticle: async function (req, res) {
-    const updateArticle = await Article.update(
-      {
-        title: req.body.articleTitle,
-        content: req.body.articleContent,
-        image: req.body.articleImage,
-        updateDate: Date.now(),
-      },
-      { where: { id: req.params.id } },
-    );
-    console.log(`Succesfully updated article id ${req.params.id}`);
-    res.redirect("/admin");
-  },
+  res.redirect("/dashboard");
+}
 
-  deleteArticle: async function destroy(req, res) {
-    const article = await Article.findByPk(req.params.id);
-    if (req.user.id === article.userId) {
-      const deleteArticle = await Article.destroy({ where: { id: req.params.id } });
-      console.log(`Succesfully deleted article with ID: ${req.params.id}`);
-      res.redirect("/admin");
-    } else {
-      console.log("This article doesn't belong to you");
-      res.redirect("/admin");
-    }
-  },
+module.exports = {
+  create,
+  store,
+  edit,
+  update,
+  destroy,
 };
-
-module.exports = articleController;

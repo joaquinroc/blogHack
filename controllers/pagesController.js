@@ -1,9 +1,8 @@
-const { Article, User, Comment } = require("../models");
+const { User, Article, Comment } = require("../models");
 
 async function showHome(req, res) {
-  const logged = req.isAuthenticated();
   const articles = await Article.findAll({ include: User });
-  res.render("home", { articles, logged });
+  res.render("home", { articles });
 }
 
 async function showArticle(req, res) {
@@ -18,7 +17,19 @@ async function showArticle(req, res) {
   res.render("article", { article, comments });
 }
 
+async function showDashboard(req, res) {
+  const articles = await Article.findAll({ include: User });
+
+  if (req.user.role.code >= 400) {
+    const users = await User.findAll();
+    return res.render("dashboard", { articles, users });
+  }
+
+  res.render("dashboard", { articles });
+}
+
 module.exports = {
   showHome,
   showArticle,
+  showDashboard,
 };

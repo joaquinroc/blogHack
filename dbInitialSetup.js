@@ -6,12 +6,18 @@ module.exports = async () => {
   console.log("[Database] ¡Las tablas fueron creadas!");
 
   // Ejecutar seeders (datos de prueba):
-  await require("./seeders/userSeeder")();
-  console.log("[Database] ¡Los datos de prueba fueron insertados!");
+  const numOfRoles = 4;
+  const numOfUsers = 5;
+  const numOfArticles = 10;
+  const numOfComments = 20;
 
-  await require("./seeders/articleSeeder")();
-  console.log("[Database] ¡Los datos de prueba fueron insertados!");
+  await require("./seeders/roleSeeder")();
 
-  await require("./seeders/commentSeeder")();
+  await require("./seeders/userSeeder")(numOfRoles, numOfUsers);
+
+  await require("./seeders/articleSeeder")(numOfUsers, numOfArticles);
+
+  await require("./seeders/commentSeeder")(numOfUsers, numOfArticles, numOfComments);
+
   console.log("[Database] ¡Los datos de prueba fueron insertados!");
 };

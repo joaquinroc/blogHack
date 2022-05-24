@@ -1,25 +1,23 @@
 const { faker } = require("@faker-js/faker");
-const { Comment, Article, User } = require("../models");
+const { Comment } = require("../models");
 
 faker.locale = "es";
 
-module.exports = async () => {
+module.exports = async (numOfUsers, numOfArticles, numOfComments) => {
   const comments = [];
-  const users = await User.findAll();
-  const articles = await Article.findAll();
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < numOfComments; i++) {
     comments.push({
       content: faker.lorem.paragraphs(),
       creationDate: faker.datatype.datetime(),
       updatedDate: faker.datatype.datetime(),
       userId: faker.datatype.number({
         min: 1,
-        max: users.length,
+        max: numOfUsers,
       }),
       articleId: faker.datatype.number({
         min: 1,
-        max: articles.length,
+        max: numOfArticles,
       }),
     });
   }
